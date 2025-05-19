@@ -1,5 +1,8 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit.TextReport;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.*;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -80,6 +83,15 @@ public class TestMarmelab {
         customerCartPage = new CustomerCartPage();
     }
 
+    @Before
+    public void setupAllureReports() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true)
+                .includeSelenideSteps(false)
+        );
+    }
+
     /*public static void pause(int seconds) { //only for debug
         try {
             Thread.sleep(seconds * 1000);
@@ -89,7 +101,15 @@ public class TestMarmelab {
     }*/
 
     @Test
+    @Severity(SeverityLevel. CRITICAL)
+    @Owner("QA Alex")
+    @Epic("Обучение JAVA QA")
+    @Feature("Модуль 10")
+    @Story("Подключение allure report")
+    @Description("Автоматизация Marmelab")
+    @Link("https://github.com/kuzinsun/Allure-mod.10")
     public void testMarmelab() {
+
         loginPage.login();
 
         mainPage.ordersLinkClick();

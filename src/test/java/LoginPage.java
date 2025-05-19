@@ -1,4 +1,5 @@
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Selectors.byXpath;
@@ -12,6 +13,9 @@ public class LoginPage {
     private final SelenideElement usernameField = $(byXpath("//input[@id=':r0:']"));
     private final SelenideElement passwordField = $(byXpath("//input[@id=':r2:']"));
 
+
+
+    @Step("Авторизация пользователя {this.username}")
     public LoginPage login() {
         usernameField.shouldBe(enabled);
         usernameField.setValue(username);

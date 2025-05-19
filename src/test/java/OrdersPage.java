@@ -1,5 +1,6 @@
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
@@ -28,6 +29,7 @@ public class OrdersPage {
         return this;
     }
 
+    @Step("Проверка отображения сообщения - 'Выбрано 3 чекбокса'")
     public OrdersPage checkCheckboxClickResult() {
         checkboxClickResult.shouldHave(text("3 items selected"));
         boolean result = checkboxClickResult.isDisplayed();

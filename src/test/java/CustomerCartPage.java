@@ -1,4 +1,5 @@
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.*;
@@ -20,6 +21,7 @@ public class CustomerCartPage {
         return address.getText();
     }
 
+    @Step("Изменение адреса клиента на новый 'Groove street'")
     public CustomerCartPage enterAddress() {
         address.shouldBe(visible);
         address.sendKeys(Keys.chord(Keys.CONTROL, "a"));
@@ -33,6 +35,7 @@ public class CustomerCartPage {
         return this;
     }
 
+    @Step("Изменения адреса клиента на исходный")
     public CustomerCartPage revertAddress(String oldAddress) {
         backupAddress.shouldBe(enabled);
         backupAddress.sendKeys(Keys.chord(Keys.CONTROL, "a"));

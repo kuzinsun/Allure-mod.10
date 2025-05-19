@@ -1,7 +1,8 @@
-import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -20,6 +21,11 @@ public class InvoicesPage {
     private final SelenideElement sendCustomer = $(byXpath("//input[@role='combobox']"));
     private final SelenideElement changeAddressCheck = $(byXpath("//p[text()='Groove street']"));
     private final SelenideElement listBox = $(byXpath("//ul[@role=\"listbox\"]"));
+
+    @Attachment(value = "Скриншот страницы", type = "image/png")
+    public static byte[] takeScreenshot() {
+        return Selenide.screenshot(OutputType.BYTES);
+    }
 
     public InvoicesPage inputDateGte() {
         String formattedDate = "01012024".replaceAll("(\\d{2})(\\d{2})(\\d{4})", "$3-$2-$1");
@@ -54,8 +60,10 @@ public class InvoicesPage {
         return this;
     }
 
+    @Step("В списке заказов первый клиент не Korey Mohr")
     public String[] customer() {
         String actualText = customer.getText();
+        takeScreenshot();
         boolean containsText = actualText.contains("Korey Mohr");
         assertFalse("Клиент в первых заказах не Korey Mohr", containsText);
         String[] parts = actualText.split("\\s+", 3);
@@ -89,12 +97,14 @@ public class InvoicesPage {
         return this;
     }
 
+    @Step("Проверка изменения адреса клиента на новый в карточке заказа")
     public InvoicesPage changeAddressCheck() {
         changeAddressCheck.shouldHave(text("Groove street"));
         assertTrue(changeAddressCheck.isDisplayed());
         return this;
     }
 
+    @Step("Проверка изменения адреса клиента к исходному состоянию")
     public InvoicesPage checkOldAddressRevert(String oldAddress) {
         SelenideElement check = $(byXpath("//p[text()='" + oldAddress + "']"));
         check.shouldHave(text(oldAddress));
